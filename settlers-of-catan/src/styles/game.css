@@ -1,0 +1,121 @@
+.hexagon {
+  position: relative;
+  width: 100px;
+  height: 57.74px;
+  background-color: #64c7cc;
+  margin: 28.87px 0;
+}
+
+.hexagon:before,
+.hexagon:after {
+  content: "";
+  position: absolute;
+  width: 0;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+}
+
+.hexagon:before {
+  bottom: 100%;
+  border-bottom: 28.87px solid #64c7cc;
+}
+
+.hexagon:after {
+  top: 100%;
+  width: 0;
+  border-top: 28.87px solid #64c7cc;
+}
+
+.game__row {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.game__row:first-child {
+  top: 60px;
+}
+
+.game__row:nth-child(2) {
+  top: 30px;
+}
+
+.game__row:nth-child(4) {
+  bottom: 30px;
+}
+
+.game__row:last-child {
+  bottom: 60px;
+}
+
+.wood {
+  background-color: brown;
+}
+
+.wood::before {
+  border-bottom-color: brown;
+}
+
+.wood::after {
+  border-top-color: brown;
+}
+
+.stone {
+  background-color: grey;
+}
+
+.stone::before {
+  border-bottom-color: grey;
+}
+
+.stone::after {
+  border-top-color: grey;
+}
+
+.brick {
+  background-color: red;
+}
+
+.brick::before {
+  border-bottom-color: red;
+}
+
+.brick::after {
+  border-top-color: red;
+}
+
+.sheep {
+  background-color: lightblue;
+}
+
+.sheep::before {
+  border-bottom-color: lightblue;
+}
+
+.sheep::after {
+  border-top-color: lightblue;
+}
+
+.wheat {
+  background-color: yellow;
+}
+
+.wheat::before {
+  border-bottom-color: yellow;
+}
+
+.wheat::after {
+  border-top-color: yellow;
+}
+
+.desert {
+  background-color: black;
+}
+
+.desert::before {
+  border-bottom-color: black;
+}
+
+.desert::after {
+  border-top-color: black;
+}
