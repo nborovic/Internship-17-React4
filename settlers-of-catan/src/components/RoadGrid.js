@@ -9,21 +9,20 @@ const createRoadGrid = radius => {
   let secondHalf = [];
 
   for (let i = min; i <= max; i++) {
-    // First half of the board
     for (let j = 1; j <= i * 2; j++) {
       diagonalRow.push({
-        id: undefined,
+        id: null,
         direction: j % 2 === 0 ? "down" : "up"
       });
       if (verticalRow.length < i + 1)
-        verticalRow.push({ id: undefined, direction: "vertical" });
+        verticalRow.push({ id: null, direction: "vertical" });
     }
 
-    secondHalf.unshift(diagonalRow.slice().reverse());
-    if (i !== max) secondHalf.unshift(verticalRow);
+    secondHalf.unshift(JSON.parse(JSON.stringify(diagonalRow)).reverse());
+    if (i !== max) secondHalf.unshift(JSON.parse(JSON.stringify(verticalRow)));
 
-    roadGrid.push(diagonalRow);
-    roadGrid.push(verticalRow);
+    roadGrid.push([...diagonalRow]);
+    roadGrid.push([...verticalRow]);
 
     diagonalRow = [];
     verticalRow = [];
@@ -31,7 +30,21 @@ const createRoadGrid = radius => {
 
   roadGrid.push(...secondHalf);
 
+  let index = 0;
+  roadGrid.forEach(row =>
+    row.forEach(road => {
+      road.id = index;
+      index++;
+    })
+  );
+
+  console.log(roadGrid);
+
   return roadGrid;
+};
+
+const onMouseOver = () => {
+  console.log("tada!");
 };
 
 const RoadGrid = () => (
@@ -39,7 +52,11 @@ const RoadGrid = () => (
     {createRoadGrid(3).map((row, index) => (
       <div key={index} className="road-row">
         {row.map((road, index) => (
-          <div key={index} className={`road ${road.direction}`} />
+          <div
+            key={index}
+            onMouseOver={e => onMouseOver}
+            className={`road ${road.direction}`}
+          />
         ))}
       </div>
     ))}

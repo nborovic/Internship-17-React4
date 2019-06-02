@@ -37,6 +37,7 @@
   top: -18px;
   left: calc(50% - 5px);
   transform: translateX(-50%);
+  z-index: 2;
 }
 
 .board {
@@ -63,6 +64,33 @@
   justify-content: center;
 }
 
+.settlement-grid {
+  position: absolute;
+  top: -70px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.settlement {
+  width: 25px;
+  height: 25px;
+  background: #000;
+  margin: 30px 12.5px;
+  position: relative;
+  cursor: pointer;
+}
+
+.aside {
+  top: 27px;
+}
+
+.settlement-row {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 .down {
   transform: rotate(30deg);
 }
@@ -74,7 +102,7 @@
 .vertical {
   height: 60px;
   width: 5px;
-  margin: 10px 0;
+  margin: 10.23px 0;
   margin-right: 95px;
   position: relative;
   left: 52.5px;

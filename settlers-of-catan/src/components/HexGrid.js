@@ -35,9 +35,9 @@ const createHexGrid = radius => {
   // Creates values array
   const values = [];
 
-  for (let i = 2; i < hexTypes.length; i++) {
+  for (let i = 2; i <= 12; i++) {
     values.push(i);
-    if (i !== 2 && i !== hexTypes.length) values.push(i);
+    if (i !== 2 && i !== 12) values.push(i);
   }
 
   shuffle(values);
@@ -46,25 +46,23 @@ const createHexGrid = radius => {
   let index = 0;
 
   for (let i = max; i >= min; i--) {
-    // First half of the board
     for (let j = i; j > 0; j--) {
-      row.push({ type: hexTypes[index], value: values[index] });
+      row.push({
+        type: hexTypes[index],
+        value: hexTypes[index] === "desert" ? null : values[index]
+      });
       index++;
     }
 
-    hexGrid.push(row);
+    hexGrid.push(JSON.parse(JSON.stringify(row)));
+    if (i !== max) hexGrid.unshift(JSON.parse(JSON.stringify(row)));
     row = [];
-
-    // Second half of the board
-    if (i !== max) {
-      for (let j = i; j > 0; j--) {
-        row.push({ type: hexTypes[index], value: values[index] });
-        index++;
-      }
-      hexGrid.unshift(row);
-      row = [];
-    }
   }
+
+  hexGrid.flat().forEach((hex, index) => {
+    hex.type = hexTypes[index];
+    hex.value = hexTypes[index] === "desert" ? null : values[index];
+  });
 
   return hexGrid;
 };

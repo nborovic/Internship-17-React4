@@ -3,6 +3,7 @@ import "./../styles/game.css";
 
 import HexGrid from "./HexGrid";
 import RoadGrid from "./RoadGrid";
+import SettlementGrid from "./SettlementGrid";
 
 class Game extends Component {
   render() {
@@ -10,6 +11,7 @@ class Game extends Component {
       <div className="board">
         <HexGrid />
         <RoadGrid />
+        <SettlementGrid />
       </div>
     );
   }
