@@ -32,32 +32,83 @@
   position: relative;
 }
 
-.game__row:first-child {
-  top: 60px;
+.roads-grid {
+  position: absolute;
+  top: -18px;
+  left: calc(50% - 5px);
+  transform: translateX(-50%);
 }
 
-.game__row:nth-child(2) {
-  top: 30px;
+.board {
+  position: absolute;
+  top: 30%;
+  left: 60%;
 }
 
-.game__row:nth-child(4) {
-  bottom: 30px;
+.road {
+  background: #000;
+  width: 60px;
+  height: 5px;
+  z-index: 2;
+  cursor: pointer;
+  margin-right: -10px;
 }
 
-.game__row:last-child {
-  bottom: 60px;
+.road:hover {
+  background: yellow;
+}
+
+.road-row {
+  display: flex;
+  justify-content: center;
+}
+
+.down {
+  transform: rotate(30deg);
+}
+
+.up {
+  transform: rotate(-30deg);
+}
+
+.vertical {
+  height: 60px;
+  width: 5px;
+  margin: 10px 0;
+  margin-right: 95px;
+  position: relative;
+  left: 52.5px;
+}
+
+.value {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  margin: 0;
+  font-size: 25px;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.game__row {
+  margin-top: -30px;
 }
 
 .wood {
-  background-color: brown;
+  background-color: green;
 }
 
 .wood::before {
-  border-bottom-color: brown;
+  border-bottom-color: green;
 }
 
 .wood::after {
-  border-top-color: brown;
+  border-top-color: green;
 }
 
 .stone {
@@ -73,15 +124,15 @@
 }
 
 .brick {
-  background-color: red;
+  background-color: brown;
 }
 
 .brick::before {
-  border-bottom-color: red;
+  border-bottom-color: brown;
 }
 
 .brick::after {
-  border-top-color: red;
+  border-top-color: brown;
 }
 
 .sheep {
@@ -97,15 +148,15 @@
 }
 
 .wheat {
-  background-color: yellow;
+  background-color: orange;
 }
 
 .wheat::before {
-  border-bottom-color: yellow;
+  border-bottom-color: orange;
 }
 
 .wheat::after {
-  border-top-color: yellow;
+  border-top-color: orange;
 }
 
 .desert {
