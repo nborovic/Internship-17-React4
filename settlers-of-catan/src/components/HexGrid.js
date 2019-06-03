@@ -67,9 +67,9 @@ const createHexGrid = radius => {
   return hexGrid;
 };
 
-const HexGrid = () => (
+const HexGrid = props => (
   <div className="hexgrid">
-    {createHexGrid(3).map((row, index) => (
+    {createHexGrid(props.radius).map((row, index) => (
       <div key={index} className="game__row">
         {row.map((hexagon, index) => (
           <Hexagon

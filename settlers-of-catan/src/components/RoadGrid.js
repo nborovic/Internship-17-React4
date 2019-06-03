@@ -44,17 +44,17 @@ const createRoadGrid = radius => {
 };
 
 const onMouseOver = () => {
-  console.log("tada!");
+  console.log("cesta!");
 };
 
-const RoadGrid = () => (
+const RoadGrid = props => (
   <div className="roads-grid">
-    {createRoadGrid(3).map((row, index) => (
+    {createRoadGrid(props.radius).map((row, index) => (
       <div key={index} className="road-row">
         {row.map((road, index) => (
           <div
             key={index}
-            onMouseOver={e => onMouseOver}
+            onMouseOver={e => onMouseOver()}
             className={`road ${road.direction}`}
           />
         ))}

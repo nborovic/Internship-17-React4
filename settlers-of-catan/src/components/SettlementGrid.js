@@ -27,16 +27,19 @@ const createSettlementGrid = radius => {
   return settlements;
 };
 
-console.log(createSettlementGrid(3));
+const onClickHandler = () => {
+  console.log("naselje!");
+};
 
-const SettlementGrid = () => (
+const SettlementGrid = props => (
   <div className="settlement-grid">
-    {createSettlementGrid(3).map((row, rowIndex) => (
+    {createSettlementGrid(props.radius).map((row, rowIndex) => (
       <div key={rowIndex} className="settlement-row">
         {row.map((settlement, settlementIndex) => (
           <div
             key={settlementIndex}
             className={`settlement ${settlement.location}`}
+            onClick={e => onClickHandler()}
           />
         ))}
       </div>

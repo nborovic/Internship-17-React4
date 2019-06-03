@@ -7,11 +7,13 @@ import SettlementGrid from "./SettlementGrid";
 
 class Game extends Component {
   render() {
+    const boardRadius = 3;
+
     return (
       <div className="board">
-        <HexGrid />
-        <RoadGrid />
-        <SettlementGrid />
+        <HexGrid radius={boardRadius} />
+        <RoadGrid radius={boardRadius} />
+        <SettlementGrid radius={boardRadius} />
       </div>
     );
   }
