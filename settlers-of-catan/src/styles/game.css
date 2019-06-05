@@ -42,8 +42,9 @@
 
 .board {
   position: absolute;
-  top: 30%;
-  left: 60%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .road {
@@ -81,6 +82,10 @@
   position: relative;
   cursor: pointer;
   pointer-events: auto;
+}
+
+.settlement:hover {
+  background: blue;
 }
 
 .aside {

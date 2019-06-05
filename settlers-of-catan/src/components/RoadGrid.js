@@ -54,7 +54,7 @@ const RoadGrid = props => (
         {row.map((road, index) => (
           <div
             key={index}
-            onMouseOver={e => onMouseOver()}
+            onClick={e => onMouseOver()}
             className={`road ${road.direction}`}
           />
         ))}

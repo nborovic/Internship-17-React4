@@ -11,6 +11,8 @@ const createSettlementGrid = radius => {
   for (let i = min; i <= max; i++) {
     for (let j = 1; j <= i * 2 + 1; j++) {
       row.push({
+        id: null,
+        type: null,
         location: j % 2 === 0 ? "top" : "aside"
       });
       reverseRow.push({ location: j % 2 === 0 ? "aside" : "top" });
@@ -23,6 +25,8 @@ const createSettlementGrid = radius => {
   }
 
   settlements.push(...secondHalf);
+
+  settlements.flat().forEach((settlement, index) => (settlement.id = index));
 
   return settlements;
 };
