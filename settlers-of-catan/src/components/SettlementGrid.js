@@ -28,6 +28,8 @@ const createSettlementGrid = radius => {
 
   settlements.flat().forEach((settlement, index) => (settlement.id = index));
 
+  console.log(settlements);
+
   return settlements;
 };
 

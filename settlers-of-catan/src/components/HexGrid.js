@@ -56,7 +56,13 @@ const createHexGrid = radius => {
         rightRoadId: null,
         leftRoadId: null,
         bottomRightRoadId: null,
-        bottomLeftRoadId: null
+        bottomLeftRoadId: null,
+        topSettlementId: null,
+        topRightSettlementId: null,
+        topLeftSettlementId: null,
+        bottomRightSettlementId: null,
+        bottomLeftSettlementId: null,
+        bottomSettlementId: null
       });
       index++;
     }
@@ -101,6 +107,36 @@ const createHexGrid = radius => {
       hex.bottomLeftRoadId =
         pastRows + pastRow + hexId * 2 - (secondHalfBottom ? 1 : 0);
     });
+    pastRows += pastRow;
+  });
+
+  pastRows = 0;
+
+  hexGrid.forEach((row, rowIndex) => {
+    pastRow =
+      row.length * 2 +
+      1 +
+      (rowIndex + 1 > Math.round(hexGrid.length / 2) ? 2 : 0);
+
+    console.log(pastRow);
+
+    row.forEach((hex, hexIndex) => {
+      let hexId = hexIndex + 1;
+      let secondHalf = rowIndex + 1 > Math.round(hexGrid.length / 2);
+      let secondHalfBottom = rowIndex + 1 >= Math.round(hexGrid.length / 2);
+
+      hex.topRightSettlementId =
+        pastRows + hexId * 2 + 1 + (secondHalf ? 1 : 0);
+      hex.topLeftSettlementId = pastRows + hexId * 2 - 1 + (secondHalf ? 1 : 0);
+      hex.topSettlementId = pastRows + hexId * 2 + (secondHalf ? 1 : 0);
+      hex.bottomSettlementId =
+        pastRows + pastRow + hexId * 2 + 1 - (secondHalfBottom ? 1 : 0);
+      hex.bottomRightSettlementId =
+        pastRows + pastRow + hexId * 2 + 2 - (secondHalfBottom ? 1 : 0);
+      hex.bottomLeftSettlementId =
+        pastRows + pastRow + hexId * 2 - (secondHalfBottom ? 1 : 0);
+    });
+
     pastRows += pastRow;
   });
 
