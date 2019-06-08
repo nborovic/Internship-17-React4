@@ -57,7 +57,7 @@
 }
 
 .road:hover {
-  background: yellow;
+  background: lightslategray;
 }
 
 .road-row {
@@ -85,7 +85,7 @@
 }
 
 .settlement:hover {
-  background: blue;
+  background: lightslategray;
 }
 
 .aside {
@@ -134,27 +134,27 @@
   margin-top: -30px;
 }
 
-.wood {
+.lumber {
   background-color: green;
 }
 
-.wood::before {
+.lumber::before {
   border-bottom-color: green;
 }
 
-.wood::after {
+.lumber::after {
   border-top-color: green;
 }
 
-.stone {
+.ore {
   background-color: grey;
 }
 
-.stone::before {
+.ore::before {
   border-bottom-color: grey;
 }
 
-.stone::after {
+.ore::after {
   border-top-color: grey;
 }
 
@@ -170,27 +170,27 @@
   border-top-color: brown;
 }
 
-.sheep {
+.wool {
   background-color: lightblue;
 }
 
-.sheep::before {
+.wool::before {
   border-bottom-color: lightblue;
 }
 
-.sheep::after {
+.wool::after {
   border-top-color: lightblue;
 }
 
-.wheat {
+.grain {
   background-color: orange;
 }
 
-.wheat::before {
+.grain::before {
   border-bottom-color: orange;
 }
 
-.wheat::after {
+.grain::after {
   border-top-color: orange;
 }
 
@@ -204,4 +204,24 @@
 
 .desert::after {
   border-top-color: black;
+}
+
+.blue {
+  background: blue;
+}
+
+.green {
+  background: lightgreen;
+}
+
+.red {
+  background: red;
+}
+
+.yellow {
+  background: yellow;
+}
+
+.bold {
+  font-weight: 900;
 }
