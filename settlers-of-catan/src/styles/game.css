@@ -225,3 +225,7 @@
 .bold {
   font-weight: 900;
 }
+
+.city {
+  border-radius: 50%;
+}

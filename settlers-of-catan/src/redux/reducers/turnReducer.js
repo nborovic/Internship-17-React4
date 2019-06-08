@@ -1,9 +1,9 @@
 import {
-  UPDATE_PLAYER_ORDER,
   CHANGE_PLAYER,
   CHANGE_TURN,
   SET_SETTLEMENT_BUILT,
-  SET_ROAD_BUILT
+  SET_ROAD_BUILT,
+  THROW_DICE
 } from "./../actions/types";
 
 const initialState = {
@@ -11,16 +11,13 @@ const initialState = {
   activePlayer: null,
   turn: 1,
   settlementBuilt: false,
-  roadBuilt: false
+  roadBuilt: false,
+  firstDice: null,
+  secondDice: null
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case UPDATE_PLAYER_ORDER:
-      return {
-        ...state,
-        playerOrder: action.payload
-      };
     case CHANGE_PLAYER:
       return {
         ...state,
@@ -43,6 +40,12 @@ export default function(state = initialState, action) {
       return {
         ...state,
         settlementBuilt: action.payload
+      };
+    case THROW_DICE:
+      return {
+        ...state,
+        firstDice: action.payload.firstDice,
+        secondDice: action.payload.secondDice
       };
     default:
       return state;

@@ -9,7 +9,7 @@ const SettlementGrid = props => (
             key={settlementIndex}
             className={`settlement ${settlement.location} ${
               settlement.player !== null ? settlement.player.name : null
-            }`}
+            } ${settlement.type !== null ? settlement.type : null}`}
             onClick={() => props.settlementClickHandler(settlement.id)}
           />
         ))}

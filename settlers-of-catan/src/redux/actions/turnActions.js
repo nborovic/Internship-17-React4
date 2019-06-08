@@ -1,14 +1,10 @@
 import {
-  UPDATE_PLAYER_ORDER,
   CHANGE_PLAYER,
   CHANGE_TURN,
   SET_SETTLEMENT_BUILT,
-  SET_ROAD_BUILT
+  SET_ROAD_BUILT,
+  THROW_DICE
 } from "./types";
-
-export const updatePlayerOrder = newPlayerOrder => dispatch => {
-  dispatch({ type: UPDATE_PLAYER_ORDER, payload: newPlayerOrder });
-};
 
 export const changePlayer = newPlayer => dispatch => {
   dispatch({ type: CHANGE_PLAYER, payload: newPlayer });
@@ -24,4 +20,8 @@ export const setRoadBuilt = () => dispatch => {
 
 export const setSettlementBuilt = () => dispatch => {
   dispatch({ type: SET_SETTLEMENT_BUILT, payload: true });
+};
+
+export const throwDice = (firstDice, secondDice) => dispatch => {
+  dispatch({ type: THROW_DICE, payload: { firstDice, secondDice } });
 };

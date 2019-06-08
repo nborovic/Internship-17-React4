@@ -15,7 +15,8 @@ import {
   setRoadBuilt,
   setSettlementBuilt,
   changeTurn,
-  changePlayer
+  changePlayer,
+  throwDice
 } from "./../redux/actions/turnActions";
 import { updatePlayers } from "./../redux/actions/playerActions";
 import { connect } from "react-redux";
@@ -39,19 +40,18 @@ class Game extends Component {
         (rowIndex + 1 > Math.round(hexGrid.length / 2) ? 2 : 0);
 
       row.forEach((hex, hexIndex) => {
-        let hexId = hexIndex + 1;
         let secondHalf = rowIndex + 1 > Math.round(hexGrid.length / 2);
         let secondHalfBottom = rowIndex + 1 >= Math.round(hexGrid.length / 2);
 
-        hex.settlementIds[1] = pastRows + hexId * 2 + 1 + (secondHalf ? 1 : 0);
-        hex.settlementIds[2] = pastRows + hexId * 2 - 1 + (secondHalf ? 1 : 0);
-        hex.settlementIds[0] = pastRows + hexId * 2 + (secondHalf ? 1 : 0);
+        hex.settlementIds[1] = pastRows + hex.id * 2 + 1 + (secondHalf ? 1 : 0);
+        hex.settlementIds[2] = pastRows + hex.id * 2 - 1 + (secondHalf ? 1 : 0);
+        hex.settlementIds[0] = pastRows + hex.id * 2 + (secondHalf ? 1 : 0);
         hex.settlementIds[5] =
-          pastRows + pastRow + hexId * 2 + 1 - (secondHalfBottom ? 1 : 0);
+          pastRows + pastRow + hex.id * 2 + 1 - (secondHalfBottom ? 1 : 0);
         hex.settlementIds[3] =
-          pastRows + pastRow + hexId * 2 + 2 - (secondHalfBottom ? 1 : 0);
+          pastRows + pastRow + hex.id * 2 + 2 - (secondHalfBottom ? 1 : 0);
         hex.settlementIds[4] =
-          pastRows + pastRow + hexId * 2 - (secondHalfBottom ? 1 : 0);
+          pastRows + pastRow + hex.id * 2 - (secondHalfBottom ? 1 : 0);
       });
 
       pastRows += pastRow;
@@ -69,25 +69,24 @@ class Game extends Component {
         (rowIndex + 1 > Math.round(hexGrid.length / 2) ? 2 : 0);
 
       row.forEach((hex, hexIndex) => {
-        let hexId = hexIndex + 1;
         let secondHalf = rowIndex + 1 > Math.round(hexGrid.length / 2);
         let secondHalfBottom = rowIndex + 1 >= Math.round(hexGrid.length / 2);
 
-        hex.roadIds[0] = pastRows + hexId * 2 + (secondHalf ? 1 : 0);
+        hex.roadIds[0] = pastRows + hexIndex * 2 + (secondHalf ? 1 : 0);
 
-        hex.roadIds[1] = pastRows + hexId * 2 - 1 + (secondHalf ? 1 : 0);
+        hex.roadIds[1] = pastRows + hexIndex * 2 - 1 + (secondHalf ? 1 : 0);
 
         hex.roadIds[2] =
-          pastRows + row.length * 2 + hexId + 1 + (secondHalf ? 2 : 0);
+          pastRows + row.length * 2 + hexIndex + 1 + (secondHalf ? 2 : 0);
 
         hex.roadIds[3] =
-          pastRows + row.length * 2 + hexId + (secondHalf ? 2 : 0);
+          pastRows + row.length * 2 + hexIndex + (secondHalf ? 2 : 0);
 
         hex.roadIds[4] =
-          pastRows + pastRow + hexId * 2 + 1 - (secondHalfBottom ? 1 : 0);
+          pastRows + pastRow + hexIndex * 2 + 1 - (secondHalfBottom ? 1 : 0);
 
         hex.roadIds[5] =
-          pastRows + pastRow + hexId * 2 - (secondHalfBottom ? 1 : 0);
+          pastRows + pastRow + hexIndex * 2 - (secondHalfBottom ? 1 : 0);
       });
       pastRows += pastRow;
     });
@@ -250,10 +249,30 @@ class Game extends Component {
       { type: "grain", count: 0 }
     ];
     const players = [
-      { id: 1, name: "blue", resources: [...initialResources] },
-      { id: 2, name: "red", resources: [...initialResources] },
-      { id: 3, name: "green", resources: [...initialResources] },
-      { id: 4, name: "yellow", resources: [...initialResources] }
+      {
+        id: 1,
+        name: "blue",
+        resources: [...initialResources],
+        victoryPoints: 0
+      },
+      {
+        id: 2,
+        name: "red",
+        resources: [...initialResources],
+        victoryPoints: 0
+      },
+      {
+        id: 3,
+        name: "green",
+        resources: [...initialResources],
+        victoryPoints: 0
+      },
+      {
+        id: 4,
+        name: "yellow",
+        resources: [...initialResources],
+        victoryPoints: 0
+      }
     ];
 
     shuffle(players);
@@ -274,13 +293,21 @@ class Game extends Component {
       return;
     }
 
-    let roadsCopy = JSON.parse(JSON.stringify(this.props.roads));
+    const roadsCopy = JSON.parse(JSON.stringify(this.props.roads));
+    const road = roadsCopy.flat().find(road => road.id === roadId);
 
-    roadsCopy.flat().forEach(road => {
-      if (road.id === roadId) {
-        road.player = this.props.activePlayer;
+    const players = JSON.parse(JSON.stringify(this.props.players));
+    const activePlayer = players.find(
+      player => player.id === this.props.activePlayer.id
+    );
+
+    if (road.player !== null)
+      if (road.player.id !== this.props.activePlayer.id) {
+        window.alert("Road already taken!");
+        return;
       }
-    });
+
+    road.player = this.props.activePlayer;
 
     this.props.updateRoads(roadsCopy);
     this.props.setRoadBuilt();
@@ -293,62 +320,88 @@ class Game extends Component {
     }
 
     let settlementsCopy = JSON.parse(JSON.stringify(this.props.settlements));
+    let settlement = settlementsCopy
+      .flat()
+      .find(settlement => settlement.id === settlementId);
 
-    settlementsCopy.flat().forEach(settlement => {
-      if (settlement.id === settlementId) {
-        settlement.player = this.props.activePlayer;
+    if (settlement.type === "city") {
+      window.alert("Settlement already upgraded to city!");
+      return;
+    }
+
+    if (settlement.player !== null)
+      if (settlement.player.id !== this.props.activePlayer.id) {
+        window.alert("Settlement already taken!");
+        return;
       }
-    });
+
+    settlement.player = this.props.activePlayer;
+    settlement.type = settlement.type === null ? "village" : "city";
+
+    const players = JSON.parse(JSON.stringify(this.props.players));
+
+    players.find(player => player.id === this.props.activePlayer.id)
+      .victoryPoints++;
 
     this.props.updateSettlements(settlementsCopy);
+    this.props.updatePlayers(players);
     this.props.setSettlementBuilt();
   };
 
-  shareResources = () => {
+  shareResources = (diceSum = null) => {
     const settlements = JSON.parse(JSON.stringify(this.props.settlements));
     const players = JSON.parse(JSON.stringify(this.props.players));
-    this.props.hexagons.flat().forEach(hex =>
-      hex.settlementIds.forEach(settlementId => {
-        settlements.flat().forEach(settlement => {
-          if (settlement.id === settlementId) {
-            if (settlement.player !== null) {
-              console.log(settlement);
-              settlement.player.resources.forEach(resource => {
-                if (resource.type === hex.type) resource.count++;
-              });
 
-              players.forEach(player => {
-                if (player.id === settlement.player.id) {
-                  player.resources = Object.assign(
-                    {},
-                    settlement.player.resources
-                  );
+    this.props.hexagons.flat().forEach(hex => {
+      if (hex.value === diceSum || diceSum === null)
+        hex.settlementIds.forEach(settlementId => {
+          settlements.flat().forEach(settlement => {
+            if (settlement.id === settlementId) {
+              if (settlement !== null)
+                if (settlement.player !== null) {
+                  console.log(settlement.player.resources);
+                  settlement.player.resources.forEach(resource => {
+                    if (resource.type === hex.type) resource.count++;
+                  });
+
+                  players.forEach(player => {
+                    if (player.id === settlement.player.id) {
+                      player.resources = Object.assign(
+                        {},
+                        settlement.player.resources
+                      );
+                      console.log(player);
+                    }
+                  });
+                  this.props.updatePlayers(players);
                 }
-              });
-              this.props.updatePlayers(players);
             }
-          }
+          });
         });
-      })
-    );
+    });
     this.props.updateSettlements(settlements);
   };
 
   handleNextClick = () => {
     const isTurnEight = this.props.turn === 8;
-
-    const newActivePlayer = Object.assign(
-      {},
-      this.props.players[(this.props.turn % 4) + (isTurnEight ? 3 : 0)]
-    );
+    const isAboveEight = this.props.turn > 8;
 
     if (isTurnEight) {
       this.props.updatePlayers(
         JSON.parse(JSON.stringify(this.props.players)).reverse()
       );
-
       this.shareResources();
+    } else if (isAboveEight) {
+      const firstDice = Math.floor(Math.random() * 6) + 1;
+      const secondDice = Math.floor(Math.random() * 6) + 1;
+      this.props.throwDice(firstDice, secondDice);
+      this.shareResources(firstDice + secondDice);
     }
+
+    const newActivePlayer = Object.assign(
+      {},
+      this.props.players[this.props.turn % 4]
+    );
 
     this.props.changeTurn(newActivePlayer);
     console.log(this.props.turn, this.props.activePlayer);
@@ -363,6 +416,7 @@ class Game extends Component {
           nextClickHandler={this.handleNextClick}
           players={this.props.players}
           activePlayer={this.props.activePlayer}
+          dices={{ first: this.props.firstDice, second: this.props.secondDice }}
         />
         <div className="board">
           <HexGrid radius={boardRadius} hexGrid={this.props.hexagons} />
@@ -390,7 +444,9 @@ const mapStateToProps = state => ({
   settlementBuilt: state.turn.settlementBuilt,
   activePlayer: state.turn.activePlayer,
   turn: state.turn.turn,
-  players: state.players.players
+  players: state.players.players,
+  firstDice: state.turn.firstDice,
+  secondDice: state.turn.secondDice
 });
 
 const mapDispatchToProps = {
@@ -401,7 +457,8 @@ const mapDispatchToProps = {
   setSettlementBuilt,
   updatePlayers,
   changeTurn,
-  changePlayer
+  changePlayer,
+  throwDice
 };
 
 export default connect(
