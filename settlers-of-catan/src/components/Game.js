@@ -43,15 +43,26 @@ class Game extends Component {
         let secondHalf = rowIndex + 1 > Math.round(hexGrid.length / 2);
         let secondHalfBottom = rowIndex + 1 >= Math.round(hexGrid.length / 2);
 
-        hex.settlementIds[1] = pastRows + hex.id * 2 + 1 + (secondHalf ? 1 : 0);
-        hex.settlementIds[2] = pastRows + hex.id * 2 - 1 + (secondHalf ? 1 : 0);
-        hex.settlementIds[0] = pastRows + hex.id * 2 + (secondHalf ? 1 : 0);
+        hex.settlementIds[1] =
+          pastRows + (hexIndex + 1) * 2 + 1 + (secondHalf ? 1 : 0);
+        hex.settlementIds[2] =
+          pastRows + (hexIndex + 1) * 2 - 1 + (secondHalf ? 1 : 0);
+        hex.settlementIds[0] =
+          pastRows + (hexIndex + 1) * 2 + (secondHalf ? 1 : 0);
         hex.settlementIds[5] =
-          pastRows + pastRow + hex.id * 2 + 1 - (secondHalfBottom ? 1 : 0);
+          pastRows +
+          pastRow +
+          (hexIndex + 1) * 2 +
+          1 -
+          (secondHalfBottom ? 1 : 0);
         hex.settlementIds[3] =
-          pastRows + pastRow + hex.id * 2 + 2 - (secondHalfBottom ? 1 : 0);
+          pastRows +
+          pastRow +
+          (hexIndex + 1) * 2 +
+          2 -
+          (secondHalfBottom ? 1 : 0);
         hex.settlementIds[4] =
-          pastRows + pastRow + hex.id * 2 - (secondHalfBottom ? 1 : 0);
+          pastRows + pastRow + (hexIndex + 1) * 2 - (secondHalfBottom ? 1 : 0);
       });
 
       pastRows += pastRow;
@@ -72,21 +83,26 @@ class Game extends Component {
         let secondHalf = rowIndex + 1 > Math.round(hexGrid.length / 2);
         let secondHalfBottom = rowIndex + 1 >= Math.round(hexGrid.length / 2);
 
-        hex.roadIds[0] = pastRows + hexIndex * 2 + (secondHalf ? 1 : 0);
+        hex.roadIds[0] = pastRows + (hexIndex + 1) * 2 + (secondHalf ? 1 : 0);
 
-        hex.roadIds[1] = pastRows + hexIndex * 2 - 1 + (secondHalf ? 1 : 0);
+        hex.roadIds[1] =
+          pastRows + (hexIndex + 1) * 2 - 1 + (secondHalf ? 1 : 0);
 
         hex.roadIds[2] =
-          pastRows + row.length * 2 + hexIndex + 1 + (secondHalf ? 2 : 0);
+          pastRows + row.length * 2 + (hexIndex + 1) + 1 + (secondHalf ? 2 : 0);
 
         hex.roadIds[3] =
-          pastRows + row.length * 2 + hexIndex + (secondHalf ? 2 : 0);
+          pastRows + row.length * 2 + (hexIndex + 1) + (secondHalf ? 2 : 0);
 
         hex.roadIds[4] =
-          pastRows + pastRow + hexIndex * 2 + 1 - (secondHalfBottom ? 1 : 0);
+          pastRows +
+          pastRow +
+          (hexIndex + 1) * 2 +
+          1 -
+          (secondHalfBottom ? 1 : 0);
 
         hex.roadIds[5] =
-          pastRows + pastRow + hexIndex * 2 - (secondHalfBottom ? 1 : 0);
+          pastRows + pastRow + (hexIndex + 1) * 2 - (secondHalfBottom ? 1 : 0);
       });
       pastRows += pastRow;
     });
